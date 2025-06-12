@@ -17,4 +17,44 @@
     <li>هنوز داده‌ای ثبت نشده است.</li>
 {% endfor %}
 </ul>
+<h2>نمودار داده‌ها</h2>
+<canvas id="greenhouseChart" width="400" height="200"></canvas>
+{% load static %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{% static 'js/chart.js' %}"></script>
+<script>
+    const ctx = document.getElementById('greenhouseChart').getContext('2d');
+    const greenhouseChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [{% for data in sensor_data %}'{{ data.recorded_at|date:"H:i:s" }}',{% endfor %}],
+            datasets: [
+                {
+                    label: 'دما (°C)',
+                    data: [{% for data in sensor_data %}{{ data.temperature }},{% endfor %}],
+                    borderColor: '#FF6384',
+                    fill: false
+                },
+                {
+                    label: 'رطوبت (%)',
+                    data: [{% for data in sensor_data %}{{ data.humidity }},{% endfor %}],
+                    borderColor: '#36A2EB',
+                    fill: false
+                },
+                {
+                    label: 'نور (لوکس)',
+                    data: [{% for data in sensor_data %}{{ data.light }},{% endfor %}],
+                    borderColor: '#FFCE56',
+                    fill: false
+                }
+            ]
+        },
+        options: {
+            scales: {
+                x: { title: { display: true, text: 'زمان' } },
+                y: { title: { display: true, text: 'مقدار' } }
+            }
+        }
+    });
+</script>
 {% endblock %}
