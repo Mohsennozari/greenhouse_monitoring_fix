@@ -3,6 +3,12 @@
 {% block content %}
 <h1>داشبورد گلخانه</h1>
 <p>خوش آمدید، {{ user.username }}!</p>
+<h2>ثبت داده جدید</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">ثبت</button>
+</form>
 <h2>آخرین داده‌های گلخانه</h2>
 <ul>
 {% for data in sensor_data %}
