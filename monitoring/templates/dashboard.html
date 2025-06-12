@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}داشبورد گلخانه{% endblock %}
+{% block content %}
+<h1>داشبورد گلخانه</h1>
+<p>خوش آمدید، {{ user.username }}!</p>
+<h2>آخرین داده‌های گلخانه</h2>
+<ul>
+{% for data in sensor_data %}
+    <li>دما: {{ data.temperature }}°C، رطوبت: {{ data.humidity }}%، نور: {{ data.light }} لوکس در {{ data.recorded_at }}</li>
+{% empty %}
+    <li>هنوز داده‌ای ثبت نشده است.</li>
+{% endfor %}
+</ul>
+{% endblock %}
